@@ -15,3 +15,9 @@ client.on('message', message => {
 })
 
 client.login(process.env.BOT_TOKEN) // BOT_TOKEN is the Client Secret
+
+client.user.setActivity("to 100 gecs, usually", {
+    url: "https://github.com/9999years/groovy-extra/",
+    type: "LISTENING"
+})
+
