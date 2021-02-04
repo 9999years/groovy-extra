@@ -7,8 +7,8 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-    if (message.content === 'ping') {
-        message.reply('pong');
+    if (message.content.startsWith('-p') {
+        message.reply('oh? you wanna play music? you wanna play a little music in my little discord server? you think you deserve to hear music? good. i love you.');
     }
 });
 
