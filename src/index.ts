@@ -46,7 +46,7 @@ function dispatchCommand(cmds: BotCommand[], message: Discord.Message) {
     }
     message.reply("the available commands are:\n"
         + cmds.reduce(
-            (acc, cmd) => acc + `• \`${cmd.name}\`: ${cmd.description}`,
+            (acc, cmd) => acc + `• \`${cmd.name}\`: ${cmd.description}\n`,
             ""
         )
     )
@@ -99,8 +99,8 @@ const COMMANDS: BotCommand[] = [
     },
     {
         name: "diagnosis",
-        description: "☺",
-        invoke: (msg, args) => {
+        description: "🙂",
+        invoke: (msg, _args) => {
             msg.channel.send("i diagnose you with: gross")
         }
     }
