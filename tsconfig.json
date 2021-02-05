@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
         "lib": ["ESNext"],
-        "outDir": "dist"
+        "outDir": "dist",
+        "strict": true
     },
     "include": [
         "src/**/*.ts"
