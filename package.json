@@ -5,6 +5,7 @@
   "main": "bot.js",
   "dependencies": {
     "discord.js": "12.5.1",
-    "request": "2.81.0"
+    "redis": "^3.0.2",
+    "request": "^2.88.2"
   }
 }

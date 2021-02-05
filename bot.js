@@ -18,7 +18,25 @@ client.on('message', message => {
 
 client.login(process.env.BOT_TOKEN) // BOT_TOKEN is the Client Secret
 
-client.user.setActivity("100 gecs", {
+botUsers = {}
+
+client.guilds.cache
+    .each(guild => {
+        if (guild.available) {
+            guild.fetchIntegrations({includeApplications: true})
+                .then(integrations =>
+                    integrations.each(integration => {
+                        if (integration.application) {
+                            if (integration.application.bot) {
+                                botUsers[guild.id][integration.id][integration.application.id] = integration.application.bot.user
+                            }
+                        }
+                    }))
+        }
+    })
+
+client.fetchApplication()
+    .then(.user.setActivity("100 gecs", {
     url: "https://github.com/9999years/groovy-extra/",
     type: "LISTENING"
 })
