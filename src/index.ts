@@ -23,6 +23,11 @@ class GroovyQueue {
         return this.redis.srem(QUEUE_NAME, track)
     }
 
+    async random(): Promise<string | null> {
+        // TODO: figure out how to cast this to Promise<string>
+        return this.redis.srandmember(QUEUE_NAME)
+    }
+
     async toArray(): Promise<Array<string>> {
         return this.redis.smembers(QUEUE_NAME)
     }
@@ -102,6 +107,18 @@ const COMMANDS: BotCommand[] = [
         description: "🙂",
         invoke: (msg, _args) => {
             msg.channel.send("i diagnose you with: gross")
+        }
+    },
+    {
+        name: "idea",
+        description: "tells you how to play a random track",
+        invoke: (msg, _args) => {
+            groovy.random()
+                .then(track => msg.channel.send(`\`-play ${track}\``))
+                .catch(e => {
+                    console.log(e)
+                    msg.react("😬")
+                })
         }
     }
 ]
