@@ -30,6 +30,21 @@ interface BotCommand {
 }
 
 function dispatchCommand(cmds: BotCommand[], message: Discord.Message) {
+    const toks = message.content.split(/\s+/)
+    toks.shift() // the @ mention
+    const cmdName = toks.shift()
+    for (const cmd of cmds) {
+        if (cmdName === cmd.name) {
+            cmd.invoke(message, toks)
+            return
+        }
+    }
+    message.reply("the available commands are:\n"
+        + cmds.reduce(
+            (acc, cmd) => acc + `• \`${cmd.name}\`: ${cmd.description}`,
+            ""
+        )
+    )
 }
 
 function sleep(ms: number): Promise<void> {
@@ -41,19 +56,18 @@ const client = new Discord.Client()
 
 const commands: BotCommand[] = [
     {
-        name: "queue",
-        description: "Load all saved tracks into the queue. To save a track, just play it normally with `-play`.",
+        name: "show",
+        description: "Show all saved tracks. To save a track, just play it normally with `-play`.",
         invoke: (message: Discord.Message, args: string[]) => {
             message.react('👍')
-            groovy.toArray().then(
-                tracks =>
-                    tracks.forEach(async function (track) {
-                        message.channel
-                            .send(`-play ${track}`)
-                            .catch(console.error)
-                        await sleep(1000)
-                    })
-            ).catch(console.error)
+            groovy.toArray()
+                .then(tracks =>
+                    tracks.reduce((acc, track) => acc + `• ${track}`, ""))
+                .then(message.reply)
+                .catch(reason => {
+                    console.error(reason)
+                    message.react('😒')
+                })
         }
     }
 ]
