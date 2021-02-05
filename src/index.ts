@@ -54,7 +54,7 @@ function sleep(ms: number): Promise<void> {
 const groovy = new GroovyQueue()
 const client = new Discord.Client()
 
-const commands: BotCommand[] = [
+const COMMANDS: BotCommand[] = [
     {
         name: "show",
         description: "Show all saved tracks. To save a track, just play it normally with `-play`.",
@@ -87,7 +87,13 @@ client.on('message', message => {
     } else if (message.content.toLowerCase().indexOf('vibe check') !== -1) {
         message.reply('great vibes!')
     } else if (message.mentions.users.first()?.id == client?.user?.id) {
-        message.reply('not reading all that shit sorry')
+        // message.reply('not reading all that shit sorry')
+        try {
+            dispatchCommand(COMMANDS, message)
+        } catch (e) {
+            console.log(e)
+            message.react('😬')
+        }
     } else if (message.content == 'hey evil groovy, play me some tunes') {
         message.reply('no')
     }
