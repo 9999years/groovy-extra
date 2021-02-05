@@ -96,6 +96,13 @@ const COMMANDS: BotCommand[] = [
                 message.channel.send('sorry idk that one 😕')
             }
         }
+    },
+    {
+        name: "diagnosis",
+        description: "☺",
+        invoke: (msg, args) => {
+            msg.channel.send("i diagnose you with: gross")
+        }
     }
 ]
 
