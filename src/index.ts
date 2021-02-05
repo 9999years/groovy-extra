@@ -61,9 +61,12 @@ const COMMANDS: BotCommand[] = [
         invoke: (message: Discord.Message, args: string[]) => {
             message.react('👍')
             groovy.toArray()
-                .then(tracks =>
-                    tracks.reduce((acc, track) => acc + `• ${track}`, ""))
-                .then(message.reply)
+                .then(tracks => {
+                    message.reply(
+                        "here's the tracks i remember:\n"
+                        + tracks.reduce((acc, track) => acc + `• ${track}`, "")
+                    )
+                })
                 .catch(reason => {
                     console.error(reason)
                     message.react('😒')
