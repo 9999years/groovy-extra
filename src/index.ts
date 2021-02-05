@@ -73,8 +73,9 @@ client.on('message', message => {
     } else if (message.content.toLowerCase().indexOf('vibe check') !== -1) {
         message.reply('great vibes!')
     } else if (message.mentions.users.first()?.id == client?.user?.id) {
+        message.reply('not reading all that shit sorry')
     } else if (message.content == 'hey evil groovy, play me some tunes') {
-        message.channel.send('-play rick astley never gonna give you up')
+        message.reply('no')
     }
 })
 
