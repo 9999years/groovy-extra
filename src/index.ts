@@ -64,7 +64,7 @@ const COMMANDS: BotCommand[] = [
                 .then(tracks => {
                     message.reply(
                         "here's the tracks i remember:\n"
-                        + tracks.reduce((acc, track) => acc + `• ${track}`, "")
+                        + tracks.reduce((acc, track) => acc + `• ${track}\n`, "")
                     )
                 })
                 .catch(reason => {
