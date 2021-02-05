@@ -10,15 +10,20 @@ class GroovyQueue {
         this.redis = new Redis(process.env.REDIS_URL)
     }
 
-    add(track: string): Promise<number> {
+    async add(track: string): Promise<number> {
         return this.redis.sadd(QUEUE_NAME, track)
     }
 
-    remove(track: string): Promise<number> {
+    async contains(track: string): Promise<boolean> {
+        return this.redis.sismember(QUEUE_NAME, track)
+            .then(boolOrNum => !!boolOrNum)
+    }
+
+    async remove(track: string): Promise<number> {
         return this.redis.srem(QUEUE_NAME, track)
     }
 
-    toArray(): Promise<Array<string>> {
+    async toArray(): Promise<Array<string>> {
         return this.redis.smembers(QUEUE_NAME)
     }
 }
@@ -71,6 +76,25 @@ const COMMANDS: BotCommand[] = [
                     console.error(reason)
                     message.react('😒')
                 })
+        }
+    },
+    {
+        name: "remove",
+        description: "Remove a track.",
+        invoke: (message, args) => {
+            if (args.length == 1) {
+                message.channel.send('uh you gotta tell me the track?')
+                message.react('🙄')
+            }
+
+            const track = args.join(" ")
+
+            if (groovy.contains(track)) {
+                groovy.remove(track)
+                message.react('😎')
+            } else {
+                message.channel.send('sorry idk that one 😕')
+            }
         }
     }
 ]
